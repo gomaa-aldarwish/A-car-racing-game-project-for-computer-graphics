@@ -1,0 +1,274 @@
+#include <GL/glut.h>  
+#include <math.h>
+#include <stdlib.h>
+#include<string>
+#include <iostream>
+int lifes = 5;
+int width_window = 600;
+int length_window = 768;
+int xr = 350, yr = 350;
+int xz = 200, yz = 200;
+int xc = 50, yc = 50;
+int xa = 10, ya = 60;
+int xd = 500, yd = 60;
+int xe = 0.0, ye = -420;
+int xt = 500, yt = 4;
+int xs = 200;
+int ys = length_window - 40;
+float xb = 200, yb = 380;
+using namespace std;
+
+void car1(int x, int y) {
+	glBegin(GL_POLYGON);
+	glVertex2f(40 + x, 80 + y);
+	glVertex2f(20 + x, 80 + y);
+	glVertex2f(20 + x, 100 + y);
+	glVertex2f(40 + x, 100 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2f(80 + x, 80 + y);
+	glVertex2f(60 + x, 80 + y);
+	glVertex2f(60 + x, 100 + y);
+	glVertex2f(80 + x, 100 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2f(60 + x, 50 + y);
+	glVertex2f(40 + x, 50 + y);
+	glVertex2f(40 + x, 80 + y);
+	glVertex2f(60 + x, 80 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2f(40 + x, 30 + y);
+	glVertex2f(20 + x, 30 + y);
+	glVertex2f(20 + x, 50 + y);
+	glVertex2f(40 + x, 50 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2f(80 + x, 30 + y);
+	glVertex2f(60 + x, 30 + y);
+	glVertex2f(60 + x, 50 + y);
+	glVertex2f(80 + x, 50 + y);
+	glEnd();
+}
+void wall(int x, int y) {
+	glColor3f(0, 0, 0);
+	glBegin(GL_POLYGON);
+	glPointSize(2);
+	glVertex2f(10 + x, 0 + y);
+	glVertex2f(0 + x, 0 + y);
+	glVertex2f(0 + x, 100 + y);
+	glVertex2f(10 + x, 100 + y);
+	glEnd();
+
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glPointSize(2);
+	glVertex2f(10 + x, 100 + y);
+	glVertex2f(0 + x, 100 + y);
+	glVertex2f(0 + x, 200 + y);
+	glVertex2f(10 + x, 200 + y);
+	glEnd();
+
+	glColor3f(0, 0, 0);
+	glBegin(GL_POLYGON);
+	glPointSize(2);
+	glVertex2f(10 + x, 200 + y);
+	glVertex2f(0 + x, 200 + y);
+	glVertex2f(0 + x, 300 + y);
+	glVertex2f(10 + x, 300 + y);
+	glEnd();
+
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glPointSize(2);
+	glVertex2f(10 + x, 300 + y);
+	glVertex2f(0 + x, 300 + y);
+	glVertex2f(0 + x, 400 + y);
+	glVertex2f(10 + x, 400 + y);
+	glEnd();
+
+	glColor3f(0, 0, 0);
+	glBegin(GL_POLYGON);
+	glPointSize(2);
+	glVertex2f(10 + x, 400 + y);
+	glVertex2f(0 + x, 400 + y);
+	glVertex2f(0 + x, 500 + y);
+	glVertex2f(10 + x, 500 + y);
+	glEnd();
+}
+
+void Timer1(int i‬) {
+	if (yc < length_window) {
+		yc++;
+	}
+	else {
+		yc = 0;
+	}
+	if (xc == xb && yc == yb)
+	{
+		lifes -= 1;
+	}
+	glutTimerFunc(2, Timer1, 0);
+}
+
+void Timer2(int i‬) {
+	if (yr < length_window) {
+		yr++;
+	}
+	else {
+		yr = 0;
+	}
+	if (xr == xb && yr == yb)
+	{
+		lifes -= 1;
+	}
+	glutTimerFunc(4, Timer2, 0);
+}
+
+void Timer3(int i‬) {
+	if (yz < length_window) {
+		yz++;
+	}
+	else {
+		yz = 0;
+	}
+	if (xz == xb && yz == yb)
+	{
+		lifes -= 1;
+	}
+
+
+	glutTimerFunc(6, Timer3, 0);
+}
+
+void Display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+	if (lifes>0)
+	{
+
+
+		glColor3f(0, .5, 1);
+		car1(xc, yc);
+
+		glColor3f(1, 0, 0);
+		car1(xr, yr);
+
+		glColor3f(0, 1, 1);
+		car1(xz, yz);
+
+		wall(xa, ya);
+		wall(xd, yd);
+		/// /// ///
+
+		glColor3f(0.0, 0.0, 0.0); // Set text 
+
+		string word = to_string(lifes);
+		glRasterPos2f(550 + xe, 475 + ye);
+		for (int i = 0; i < word.length(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, word[i]);
+		}
+
+
+		/// /// ///
+		glPointSize(4);
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(570 + xe, 450 + ye);
+		glVertex2f(540 + xe, 450 + ye);
+		glVertex2f(540 + xe, 480 + ye);
+		glVertex2f(570 + xe, 480 + ye);
+		glEnd();
+
+
+		glColor3f(0, 0, 0);
+		glBegin(GL_POLYGON);
+		glVertex2f(40 + xb, 80 + yb);
+		glVertex2f(20 + xb, 80 + yb);
+		glVertex2f(20 + xb, 100 + yb);
+		glVertex2f(40 + xb, 100 + yb);
+		glEnd();
+
+		glBegin(GL_POLYGON);
+		glVertex2f(80 + xb, 80 + yb);
+		glVertex2f(60 + xb, 80 + yb);
+		glVertex2f(60 + xb, 100 + yb);
+		glVertex2f(80 + xb, 100 + yb);
+		glEnd();
+
+		glBegin(GL_POLYGON);
+		glVertex2f(60 + xb, 50 + yb);
+		glVertex2f(40 + xb, 50 + yb);
+		glVertex2f(40 + xb, 80 + yb);
+		glVertex2f(60 + xb, 80 + yb);
+		glEnd();
+
+		glBegin(GL_POLYGON);
+		glVertex2f(40 + xb, 30 + yb);
+		glVertex2f(20 + xb, 30 + yb);
+		glVertex2f(20 + xb, 50 + yb);
+		glVertex2f(40 + xb, 50 + yb);
+		glEnd();
+
+		glBegin(GL_POLYGON);
+		glVertex2f(80 + xb, 30 + yb);
+		glVertex2f(60 + xb, 30 + yb);
+		glVertex2f(60 + xb, 50 + yb);
+		glVertex2f(80 + xb, 50 + yb);
+		glEnd();
+	}
+	else 
+	{
+		string word = "Game Over";
+		glRasterPos2f(200, 200);
+		for (int i = 0; i < word.length(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, word[i]);
+		}
+	}
+	///  /// ///
+	glutPostRedisplay();
+	glutSwapBuffers();
+}
+void specialkey(unsigned  char key, int x, int y) {
+
+	switch (key) {
+	case '8':
+		yb -= 20;
+		break;
+
+	case '5':
+		yb += 20;
+		break;
+	case '6':
+		xb += 75;
+		break;
+	case '4':
+		xb -= 75;
+		break;
+	case 27:
+		exit(0);
+		break;
+	default:
+		break;
+	}
+
+}
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(width_window, length_window);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Application1");
+	glClearColor(1, 1, 1, 1);
+	gluOrtho2D(0.0, width_window, length_window, 0.0);
+	glutDisplayFunc(Display);
+	glutTimerFunc(100, Timer1, 0);
+	glutTimerFunc(100, Timer2, 0);
+	glutTimerFunc(100, Timer3, 0);
+	glutKeyboardFunc(specialkey);
+	glutMainLoop();
+	return 0;
+}
